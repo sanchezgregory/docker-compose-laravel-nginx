@@ -10,6 +10,9 @@ https://github.com/sanchezgregory/mysqldocker
 add a new line to the /etc/hosts -> 127.0.0.1	app.local.com # change app by the app name
 using replace in file (right click on root project) app -> new name
 
+# execute this command
+cp -r testConnection html
+
 # If you see this error:
 The directory named as part of the path /var/www/storage/logs/horizon.log does not exist in section 'program:horizon'
 After complete load docker, you must uncomment lines 26 and 27 and 39, 40 from docker/php/supervisord.conf
