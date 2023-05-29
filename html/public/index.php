@@ -1,7 +1,7 @@
 <?php
 
 echo "<h3><center>" ;
-include 'connection.php';
+include '../howToConnect.php';
 echo "</h3></center>";
 
 echo "<hr><hr>";
