@@ -1,0 +1,72 @@
+version: '3.9'
+services:
+    server-nginx:
+        container_name: server-nginx
+        restart: unless-stopped
+        build:
+            context: ./
+            dockerfile: docker/nginx/Dockerfile
+        volumes:
+            - ./html:/var/www
+            - ./docker/nginx/${VHOST_FILE}:/etc/nginx/conf.d/custom.conf
+        ports:
+            - "80:80"
+        links:
+            - app-php
+        environment:
+            VIRTUAL_HOST: ${DOMAIN_HOST}
+            VIRTUAL_PORT: 80
+            LETSENCRYPT_HOST: ${DOMAIN_HOST}
+            LETSENCRYPT_EMAIL: ${DOMAIN_EMAIL}
+        networks:
+            - nginx-proxy
+            - docker-app
+
+    app-php:
+        container_name: app-php
+        restart: unless-stopped
+        user: ${USER_ID}:${GROUP_ID}
+        build:
+            context: ./
+            dockerfile: docker/php/Dockerfile
+            args:
+                USER_ID: ${USER_ID}
+                GROUP_ID: ${GROUP_ID}
+        volumes:
+            - ./html:/var/www
+            - ./docker/php/php.ini:/usr/local/etc/php/conf.d/php.ini
+            - ./docker/php/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
+            - ./docker/php/supervisord.conf:/etc/supervisor/conf.d/supervisord.conf
+        links:
+            - app-redis
+        ports:
+            - "9001:9003"
+        tmpfs:
+            - /dev/shm
+        extra_hosts:
+            - "host.docker.internal:host-gateway"
+        networks:
+            - docker-app
+            - mysql-network
+
+    app-redis:
+        container_name: app-redis
+        restart: unless-stopped
+        build:
+            context: ./
+            dockerfile: docker/redis/Dockerfile
+            args:
+                REDIS_PASSWORD: ${REDIS_PASSWORD}
+        ports:
+            - ${REDIS_EXTERNAL_PORT}:6379
+        sysctls:
+            - net.core.somaxconn=511
+        networks:
+            - docker-app
+
+networks:
+    docker-app:
+    nginx-proxy:
+        external: true
+    mysql-network:
+        external: true
