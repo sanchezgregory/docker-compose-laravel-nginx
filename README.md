@@ -33,3 +33,8 @@ After you see local env is mounted, Go to inside docker and run:
     php artisan migrate
     
 # Linking to  Mysql5.7 or 8.0 
+see: https://github.com/sanchezgregory/mysqldocker
+
+
+#xdebug
+Can start using xdebug using this method = http://app.local.com/?XDEBUG_SESSION_START=1
