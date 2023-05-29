@@ -23,6 +23,9 @@ Get in to the page: app.local.com and you can see the phpinfo() page and the con
 # Now...
 You can clone your laravel app into html folder, and you can re-use the .env existing file for the new projects .env keeping some important variables for the docker itself 
 
+# Clone project only like this: From root docker project
+git clone git@github.com:name/project.git html
+
 # Ready config for redis since .env.example
 After you see local env is mounted, Go to inside docker and run:
     composer install
@@ -39,5 +42,6 @@ After you see local env is mounted, Go to inside docker and run:
 see: https://github.com/sanchezgregory/mysqldocker
 
 
-#xdebug
+
+# xdebug
 Can start using xdebug using this method = http://app.local.com/?XDEBUG_SESSION_START=1
