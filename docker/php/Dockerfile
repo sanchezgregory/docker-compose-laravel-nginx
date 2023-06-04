@@ -47,8 +47,8 @@ RUN curl -sL https://deb.nodesource.com/setup_lts.x | bash -
 RUN apt-get install -y nodejs
 RUN npm update -g
 
-ADD ./docker/php/crontab /etc/cron.d/app-cron
-RUN crontab -u www-data /etc/cron.d/app-cron
+ADD ./docker/php/crontab /etc/cron.d/testapp-cron
+RUN crontab -u www-data /etc/cron.d/testapp-cron
 
 RUN usermod -a -G crontab www-data
 RUN chmod gu+s /usr/sbin/cron
